@@ -1,0 +1,363 @@
+
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{tabularx}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{Guardian 360: Proactive Elderly Care}
+
+% \author{
+% \IEEEauthorblockN{Abhinav Chandra. HS}
+% \IEEEauthorblockA{\textit{Department of CSE(AI \& ML)} \\
+% \textit{JSS Academy of Technical Education}\\
+% Bengaluru, India \\
+% abhinavchandra@jssate.edu.in}
+% }
+\author{
+\IEEEauthorblockN{Abhinav Chandra. HS}
+\IEEEauthorblockA{
+\textit{Department of CSE(AI \& ML)} \\
+\textit{JSS Academy of Technical Education} \\
+Bengaluru, India \\
+abhinavchandra@jssate.edu.in
+}
+\and
+\IEEEauthorblockN{Dikshitha N}
+\IEEEauthorblockA{
+\textit{Department of CSE(AI \& ML)} \\
+\textit{JSS Academy of Technical Education} \\
+Bengaluru, India \\
+author@jssate.edu.in
+}
+\and
+\IEEEauthorblockN{SV Preethi}
+\IEEEauthorblockA{
+\textit{Department of CSE(AI \& ML)} \\
+\textit{JSS Academy of Technical Education} \\
+Bengaluru, India \\
+author3@jssate.edu.in
+}
+\and
+\IEEEauthorblockN{Sahana HM}
+\IEEEauthorblockA{
+\textit{Department of CSE(AI \& ML)} \\
+\textit{JSS Academy of Technical Education} \\
+Bengaluru, India \\
+author4@jssate.edu.in
+}
+}
+
+\maketitle
+
+\begin{abstract}
+The proactive elderly care technology landscape has achieved remarkable technical maturity---wearable fall detection reaches 97\% accuracy with edge AI, longitudinal models predict fall risk up to five years ahead with AUC exceeding 0.90, and IoT architectures reduce critical alert latency by over 60\%---yet these capabilities remain trapped in disconnected silos that prevent holistic care delivery. Despite approximately 3,000 AgeTech companies and 350,000 mobile health applications, only half of adults aged 55 and older use health-related technologies, and no single platform bridges reactive emergency response with proactive predictive analytics. This paper presents a landscape analysis of proactive elderly care technologies, identifies critical integration gaps, and proposes Guardian 360---a unified architecture addressing systemic fragmentation through four design imperatives: a sensor-agnostic data ingestion layer, dual-mode architecture bridging prediction and emergency response, consolidated caregiver dashboard, and FHIR-native clinical integration.
+\end{abstract}
+
+\begin{IEEEkeywords}
+elderly care, fall detection, IoT, wearable sensors, predictive analytics, edge AI, FHIR, smart home, proactive healthcare
+\end{IEEEkeywords}
+
+%==============================================================================
+\section{Introduction}
+%==============================================================================
+
+The global aging population is driving unprecedented demand for technology-enabled elderly care solutions. Despite the proliferation of approximately 350,000 mobile health applications and nearly 3,000 AgeTech companies \cite{milken2024}, the current technology landscape remains deeply fragmented. Only half of adults aged 55 and older use health-related or assistive technologies today, and the solutions available are often difficult to access or use together \cite{milken2024}. Existing products tend to address narrow slices of the care continuum---a wearable that tracks heart rate, a pendant that detects falls, a smart speaker that sets medication reminders---but no single platform delivers a unified, proactive care experience that bridges emergency response with predictive health analytics \cite{hfs2024}.
+
+This paper investigates the current landscape of proactive elderly care technologies across four pillars: wearable health monitors, fall detection systems, IoT-based smart home solutions, and AI-driven predictive health analytics. It analyzes the critical challenges of privacy, usability, and adoption that constrain the field, reviews recent advancements from 2023 through 2026, benchmarks leading commercial solutions, and identifies the integration gaps that a comprehensive ``Guardian 360'' system could address.
+
+The remainder of this paper is organized as follows: Section~II reviews wearable health monitors and fall detection advances. Section~III examines IoT smart home architectures. Section~IV discusses AI-driven predictive health analytics. Section~V presents a comparative analysis of leading solutions. Section~VI analyzes challenges and barriers. Section~VII introduces the proposed Guardian 360 system architecture. Section~VIII provides discussion, and Section~IX concludes with future directions.
+
+%==============================================================================
+\section{Wearable Health Monitors and Fall Detection}
+%==============================================================================
+
+\subsection{From Reactive Detection to Proactive Prediction}
+
+The most significant paradigm shift in wearable elderly care technology over the past three years has been the transition from reactive fall detection---alerting after a fall has occurred---to proactive fall prediction that identifies risk before an event happens. This shift is enabled by advances in on-device AI, sensor fusion, and longitudinal modeling.
+
+On the detection front, CNN-LSTM architectures with attention mechanisms deployed on edge devices such as the NVIDIA Jetson Nano now achieve 97\% accuracy, 98\% recall, and 98\% precision for accelerometer-based fall detection, enabling real-time on-device inference without cloud dependency \cite{pmc_fall_edge}. A comprehensive 2026 meta-analysis encompassing 20 studies and published in \textit{Frontiers in Public Health} reported a pooled AUC of 0.85 for wearable-based fall prediction in older adults, with machine learning models demonstrating superior discriminative ability at an AUC of 0.90 \cite{frontiers_meta}.
+
+\subsection{Gait Analysis and Longitudinal Prediction}
+
+IMU-based gait analysis has emerged as a powerful tool for faller classification. A 2025 study published in the \textit{IEEE Journal of Biomedical and Health Informatics} validated an SVM classifier using foot-mounted IMU gait parameters from 157 patients aged 70 and older, achieving 79.6\% accuracy in classifying fallers---outperforming traditional gait speed methods at 77.0\%---while enabling continuous long-term monitoring without periodic clinical evaluations \cite{ieee_imu}. Even more remarkably, a 2024 study in \textit{npj Digital Medicine} demonstrated that Random Forest classifiers using data from six wearable sensors could predict falls up to five years ahead with 78\% accuracy (AUC of 0.85 at 60 months) and 84--92\% accuracy at 24 months (AUC exceeding 0.90), with walking variability and postural sway identified as key predictors \cite{npj_fall}.
+
+\subsection{Multi-Modal Sensor Fusion and Synthetic Data}
+
+Multi-modal approaches are pushing accuracy even further. A 2025 study combining gait data from soft robotic exoskeletons with surface EMG signals achieved an AUC of 0.986 using an SVM model, highlighting the value of integrating gait, electromyographic, and imaging features for early fall risk detection \cite{frontiers_fusion}. Meanwhile, the persistent challenge of training data scarcity for elderly fall events is being addressed through novel generative approaches: LLMs and diffusion models are now being used to produce synthetic fall data, with text-to-motion models generating more realistic biomechanical data than text-to-text models such as GPT-4o and Gemini \cite{arxiv_llm_fall}.
+
+
+%==============================================================================
+\section{IoT Smart Home Architectures}
+%==============================================================================
+
+\subsection{Sensor-Rich Environments with Edge Intelligence}
+
+Modern IoT architectures for elderly care deploy dense sensor networks within the home environment. Recent systems install 23--28 sensor units per household---including wearable devices, ultra-wideband positioning tags, and environmental sensors---connected to Raspberry Pi 4B edge nodes that perform local data compression (achieving approximately 40\% reduction) and dynamic priority scheduling, reducing critical-data transmission delay by 61.3\% before forwarding data to cloud analytics layers \cite{informatica_iot}. This edge-cloud collaborative processing model is essential for elderly care, where latency-sensitive alerts such as fall notifications must be handled locally while longitudinal AI analytics run in the cloud \cite{sensors_edge}.
+
+Non-wearable sensor approaches are also gaining traction. An edge-based IoT framework published in \textit{Sensors} in 2025 enables real-time monitoring and anomaly detection using PIR motion sensors, door and window contact sensors, and pressure mats to assist caregivers---offering a less intrusive alternative to body-worn devices that some elderly users resist \cite{sensors_edge}.
+
+\subsection{Interoperability Standards: Matter and FHIR}
+
+The fragmentation of smart home communication protocols has long been a barrier to integrated elderly care. The Matter standard, now at version 1.5 as of November 2025, operates at the IP application layer over Wi-Fi, Ethernet, and Thread mesh networks, supporting sensors including motion, door/window, air quality, and smoke/CO detectors \cite{matter_wiki}. Founded by Amazon, Apple, Google, and the Connectivity Standards Alliance, Matter eliminates the need for proprietary hubs, though legacy Zigbee devices still require a Matter Bridge for translation \cite{matter_wiki}.
+
+On the healthcare data side, HL7 FHIR provides RESTful APIs with JSON/XML support that enable wearable patient-generated health data---such as heart rate and activity levels---to be mapped to standardized resources and stored in FHIR servers for clinical use. However, significant challenges persist in semantic mapping of heterogeneous sensor data, real-time streaming integration, and GDPR consent management \cite{pmc_fhir}. The gap between smart home interoperability (Matter) and clinical data interoperability (FHIR) represents a critical integration challenge that current solutions have not resolved.
+
+%==============================================================================
+\section{AI-Driven Predictive Health Analytics}
+%==============================================================================
+
+\subsection{Multimodal Foundation Models}
+
+The frontier of AI-driven elderly care lies in multimodal foundation models that jointly represent electronic health record (EHR) and wearable sensor streams as a unified continuous-time latent process. A 2025 study introduced such a model that consistently outperformed strong unimodal baselines including MOTOR, CEHR-BERT, PaPaGei, and HiMAE, with particularly large gains at long prediction horizons and under realistic missing-modality scenarios \cite{arxiv_multimodal}. This approach is significant because real-world elderly monitoring inevitably involves incomplete data---a patient may remove a wearable, or EHR updates may lag---and models that degrade gracefully under missing modalities are essential for clinical deployment.
+
+\subsection{Cognitive Decline and Early Warning Systems}
+
+Mass General Brigham researchers have developed one of the first fully autonomous AI systems capable of screening for cognitive impairment using routine clinical documentation, leveraging LLM-based agents on EHR data \cite{mgb_cognitive}. For neurodegenerative disease prediction more broadly, a multi-modal XGBoost model combining MRI brain parameters with wearable accelerometry data from approximately 20,000 UK Biobank participants achieved an AUC of 0.819, compared to 0.688 without MRI data \cite{plos_neuro}.
+
+In the acute care setting, a 2025 meta-analysis of five prospectively validated studies found that AI-based early warning models significantly reduced in-hospital and 30-day mortality rates, though ICU transfer reductions were not statistically significant \cite{pmc_ews}.
+
+\subsection{Behavioral Anomaly Detection}
+
+Smart home-based behavioral monitoring represents another promising avenue. Researchers at Singapore Management University and Carnegie Mellon developed an intelligent system using wireless motion sensors and ML models to monitor abnormal activity patterns of older adults, with interactive dialogue responses enabling caregivers to receive explanations of detected anomalies \cite{arxiv_anomaly}. According to a 2025 review in \textit{BMC Geriatrics}, AI-driven tools including ML algorithms, predictive analytics, and assistive robotics are increasingly utilized to address aging challenges such as frailty, multimorbidity, polypharmacy, and fall prevention, though challenges in data privacy, algorithmic bias, and digital literacy remain significant barriers \cite{bmc_smart_aging}.
+
+%==============================================================================
+\section{Comparative Analysis of Leading Solutions}
+%==============================================================================
+
+The current market for elderly care technology is served by several prominent solutions, each addressing different aspects of the care continuum. Table~\ref{tab:comparison} presents a comparative benchmark of five leading solutions.
+
+\begin{table*}[!t]
+\caption{Comparative Benchmark of Leading Elderly Care Solutions}
+\label{tab:comparison}
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}p{2.8cm}}
+\toprule
+\textbf{Solution} & \textbf{Fall Detection} & \textbf{Response Time} & \textbf{Key Features} & \textbf{Monthly Cost} & \textbf{Positioning} \\
+\midrule
+Apple Watch (Series 4+) & Hard fall detection; auto-calls 911 after $\sim$60s immobility & $\sim$90s total & Heart rate, ECG, blood oxygen, crash detection, emergency SOS & \$249--\$799 upfront; no monthly fee & Consumer wearable; tech-savvy seniors \\
+\midrule
+Medical Guardian & Fall detection add-on; tested as more accurate than Lifeline & Sub-60s average & GPS tracking, caregiver app, smartwatch option (MGMove) & \$20--\$45/mo & Best overall PERS; active seniors \\
+\midrule
+Philips Lifeline (HomeSafe) & Detected 5 of 10 simulated falls (50\% accuracy) & Avg. 12s to connect & In-home base unit, water-resistant pendant, caregiver app & $\sim$\$55/mo incl. fall detection & Legacy PERS leader; simplicity focus \\
+\midrule
+CarePredict (Tempo) & AI-driven anomaly detection; predicts health risks before falls & Proactive alerts (hours/days ahead) & Wrist-worn sensor, pulse oximetry, AI behavioral analytics & Enterprise/facility pricing & B2B predictive care for senior living \\
+\midrule
+Amazon Alexa Together & Fall detection via third-party devices & 24/7 Urgent Response agents & Activity alerts, drop-in calls, reminders, remote assist & \$19.99/mo or \$199/yr & Voice-first ambient care; budget-friendly \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+The fundamental divide in the market is between reactive personal emergency response systems (PERS) like Medical Guardian and Philips Lifeline, which excel at post-fall emergency response but offer no predictive capabilities, and proactive platforms like CarePredict, which provide AI-driven behavioral analytics and risk prediction but lack real-time emergency response infrastructure \cite{hfs2024}. No single platform bridges both paradigms.
+
+%==============================================================================
+\section{Challenges and Barriers}
+%==============================================================================
+
+\subsection{Cybersecurity Vulnerabilities}
+
+The security posture of IoT elderly care devices is alarming. According to Claroty's 2025 analysis of over 2.25 million IoMT devices across 351 healthcare organizations, 89\% of healthcare organizations have the riskiest IoMT devices---those with known exploitable vulnerabilities linked to active ransomware campaigns---connected to the internet on their networks \cite{helpnet_cyber}. Many IoT elderly care devices transmit data over unsecured networks, and common compliance gaps include outdated encryption, missing multi-factor authentication, and insecure APIs \cite{hipaa_iot}. NIST CSWP 34 warns that compromised personally owned devices and smart speakers in home care settings may lead to unauthorized access to healthcare systems \cite{nist_cswp34}.
+
+\subsection{Regulatory and Ethical Concerns}
+
+Under GDPR, health data from wearables is classified as special category data requiring Data Protection Impact Assessments for continuous monitoring \cite{censinet_gdpr}. Beyond regulatory compliance, deeper ethical concerns surround AI surveillance in eldercare: data is frequently harvested and acted upon without full knowledge or consent from the elderly user \cite{frontiers_dignity}. Algorithmic bias is a significant concern, as older populations are underrepresented in training datasets, leading to age-biased algorithms that may perform poorly for the very population they are designed to serve \cite{frontiers_ageism}.
+
+\subsection{Adoption Barriers}
+
+Despite the promise of health technology for promoting independent living, actual implementation remains challenging due to low digital literacy, complex interfaces, and lack of ongoing technical support \cite{pmc_barriers}. While the digital divide has decreased among older adults and over a third of adults aged 50 and older in the USA already use technology for health, older adults with lower income continue to have lower access to smartphones, tablets, and home broadband \cite{pmc_ethics}. Research on dementia caregivers indicates that technology is not adopted at scale despite its potential, with barriers including perceived complexity and lack of integration into care workflows \cite{pmc_dementia}. Evidence-based strategies to improve adoption include integrating equity frameworks into technology studies, co-designing with elderly users, and building explainable AI systems that provide interpretable results \cite{pmc_ethics}.
+
+%==============================================================================
+\section{Guardian 360: Proposed System Architecture}
+%==============================================================================
+
+The analysis reveals four critical integration gaps in the current elderly care technology ecosystem. Guardian 360 is proposed as a comprehensive platform that addresses these gaps through four design imperatives, illustrated in Fig.~\ref{fig:architecture}.
+
+\begin{figure}[!t]
+\centering
+\fbox{\parbox{0.95\columnwidth}{
+\centering
+\vspace{0.3cm}
+\textbf{Guardian 360 System Architecture}\\[0.3cm]
+\begin{tabular}{|c|}
+\hline
+\textbf{Layer 4: FHIR-Native Clinical Integration} \\
+HL7 FHIR R4 $\cdot$ EHR Sync $\cdot$ Clinical Decision Support \\
+\hline
+\textbf{Layer 3: Consolidated Caregiver Dashboard} \\
+Real-time Alerts $\cdot$ Trend Analytics $\cdot$ Medication $\cdot$ Comms \\
+\hline
+\textbf{Layer 2: Dual-Mode Processing Engine} \\
+\textit{Proactive:} Behavioral AI, Risk Prediction \\
+\textit{Reactive:} Fall Detection, Emergency SOS \\
+\hline
+\textbf{Layer 1: Sensor-Agnostic Data Ingestion} \\
+Wearables $\cdot$ IoT Sensors $\cdot$ Smart Home $\cdot$ Matter/BLE \\
+\hline
+\end{tabular}
+\vspace{0.3cm}
+}}
+\caption{Guardian 360 four-layer system architecture bridging sensor data ingestion through clinical integration.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Design Imperative 1: Sensor-Agnostic Data Ingestion Layer}
+
+The first design imperative addresses the absence of a unified data layer. Each existing solution operates in its own data silo---Apple Watch health data does not flow to PERS monitoring centers; CarePredict's AI insights do not integrate with Alexa Together alerts or EHR systems \cite{hfs2024}. Guardian 360 proposes a sensor-agnostic ingestion layer that accepts data from any wearable, IoT device, or clinical system regardless of manufacturer or communication protocol, leveraging Matter for smart home device interoperability and custom adapters for proprietary medical devices.
+
+\subsection{Design Imperative 2: Dual-Mode Architecture}
+
+The second imperative bridges the reactive--proactive divide. PERS devices are purely reactive post-fall systems, while CarePredict offers predictive analytics but lacks emergency response infrastructure. Guardian 360 unifies both paradigms through a dual-mode processing engine that continuously monitors behavioral patterns and physiological signals to predict risk (proactive mode) while maintaining robust emergency response capabilities when acute events occur (reactive mode). The proactive engine leverages longitudinal models similar to those achieving AUC $>$ 0.90 for fall prediction \cite{npj_fall}, while the reactive engine provides sub-60-second emergency response comparable to leading PERS systems.
+
+\subsection{Design Imperative 3: Consolidated Caregiver Dashboard}
+
+Family caregivers currently must manage multiple disconnected applications---Apple Health, Medical Guardian's app, Alexa's app, and facility portals---with no consolidated view of their loved one's status \cite{hfs2024, milken2024}. Guardian 360 provides a single caregiver dashboard integrating real-time alerts, trend analytics, medication adherence tracking, and communication tools into one unified interface, reducing cognitive load and improving response times.
+
+\subsection{Design Imperative 4: FHIR-Native Clinical Integration}
+
+While FHIR provides the technical foundation for bridging wearable and IoT data to clinical systems \cite{pmc_fhir}, adoption in long-term care remains limited---EHR interoperability capability in long-term care settings has stalled between 2023 and 2024 \cite{mcknights_ehr}. Guardian 360 serves as a FHIR-native platform that automatically translates sensor data into standardized FHIR R4 resources (Observation, Patient, Device, and DiagnosticReport), enabling seamless bidirectional information exchange with primary care providers, specialists, and hospital systems.
+
+%==============================================================================
+\section{Discussion}
+%==============================================================================
+
+The Guardian 360 architecture directly addresses each of the four identified integration gaps. By providing a sensor-agnostic ingestion layer, it eliminates data silos that currently prevent cross-platform analytics. The dual-mode processing engine resolves the fundamental market divide between reactive PERS and proactive AI platforms, enabling a single system to both predict and respond. The consolidated caregiver dashboard reduces the cognitive burden of managing multiple disconnected applications, and FHIR-native integration bridges the gap between consumer health devices and clinical systems.
+
+Several important considerations merit discussion. First, privacy-preserving approaches such as federated learning should be employed for multi-site model training, enabling Guardian 360 to improve its predictive models across diverse populations without centralizing sensitive health data. Second, co-design principles with elderly users and caregivers are essential to maximize adoption---the system must be intuitive enough for users with limited digital literacy while powerful enough for clinical workflows. Third, explainable AI techniques should be integrated to build trust with elderly users, providing interpretable explanations for risk predictions rather than opaque algorithmic outputs.
+
+Limitations of this work include the conceptual nature of the Guardian 360 architecture, which requires real-world deployment validation. The comparative analysis is limited to five representative solutions and does not exhaustively cover all market offerings. Additionally, the cost-effectiveness of a unified platform versus individual point solutions requires further economic analysis.
+
+%==============================================================================
+\section{Conclusion and Future Work}
+%==============================================================================
+
+This paper has presented a comprehensive landscape analysis of proactive elderly care technologies, revealing a maturing but deeply fragmented ecosystem. On the technology front, significant advances have been achieved: wearable fall detection now reaches 97\% accuracy with edge AI \cite{pmc_fall_edge}, longitudinal prediction models can forecast fall risk up to five years ahead \cite{npj_fall}, multimodal foundation models outperform unimodal baselines for health event prediction \cite{arxiv_multimodal}, and IoT architectures with edge-cloud processing reduce critical alert latency by over 60\% \cite{informatica_iot}. However, these capabilities remain siloed across disconnected products and platforms.
+
+The critical barriers to realizing proactive elderly care are not primarily technological but architectural and systemic. The absence of a unified data layer, the divide between reactive and proactive paradigms, caregiver dashboard fragmentation, and limited FHIR adoption in long-term care collectively prevent the field from delivering on its promise. Compounding these integration challenges are serious concerns around cybersecurity---with 89\% of healthcare organizations harboring exploitable IoMT vulnerabilities \cite{helpnet_cyber}---algorithmic bias from underrepresentation of elderly populations in training data \cite{frontiers_ageism}, and persistent adoption barriers rooted in digital literacy gaps and cost constraints \cite{pmc_barriers, pmc_ethics}.
+
+Guardian 360 is proposed as a comprehensive platform addressing these gaps through four design imperatives: a unified sensor-agnostic data layer, a dual-mode architecture bridging proactive risk prediction with reactive emergency response, a consolidated caregiver dashboard, and FHIR-native clinical integration. Future research should focus on: (1) validating this integrated architecture in real-world pilot deployments across diverse elderly populations; (2) developing privacy-preserving federated learning approaches for multi-site model training; (3) conducting user co-design studies with elderly participants and caregivers to optimize interface accessibility; and (4) performing cost-effectiveness analyses comparing unified platforms against current fragmented solutions.
+
+%==============================================================================
+% REFERENCES
+%==============================================================================
+
+\begin{thebibliography}{34}
+
+\bibitem{pmc_fall_edge}
+``Development of artificial intelligence edge computing based wearable device for fall detection and prevention of elderly people,'' \textit{PMC}, 2024. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11019185}
+
+\bibitem{npj_fall}
+``Predicting future fallers in Parkinson's disease using kinematic data over a period of 5 years,'' \textit{npj Digital Medicine}, 2024. [Online]. Available: \url{https://www.nature.com/articles/s41746-024-01311-5}
+
+\bibitem{informatica_iot}
+``IoT-Enabled Hierarchical Architecture for Intelligent Home-Based Elderly Care: A Multi-Objective Optimization Approach,'' \textit{Informatica}, 2025. [Online]. Available: \url{https://www.informatica.si/index.php/informatica/article/view/8599}
+
+\bibitem{milken2024}
+``The Future of Connected Care: Enabling Healthy Longevity and Aging at Home,'' \textit{Milken Institute}, 2024. [Online]. Available: \url{https://milkeninstitute.org/content-hub/research-and-reports/reports/future-connected-care-enabling-healthy-longevity-and-aging-home}
+
+\bibitem{hfs2024}
+``Unify IoT platforms to capture the billion-dollar elderly care market,'' \textit{HFS Research}, 2024. [Online]. Available: \url{https://www.hfsresearch.com/research/unify-billion-elderly-care-market/}
+
+\bibitem{mcknights_ehr}
+``Long-term care providers' EHR adoption has stalled out, study and widespread worries reflect,'' \textit{McKnight's}, 2024. [Online]. Available: \url{https://www.mcknights.com/news/long-term-care-providers-ehr-adoption-has-stalled-out-study-and-widespread-worries-reflect/}
+
+\bibitem{helpnet_cyber}
+``Healthcare's alarming cybersecurity reality,'' \textit{Help Net Security}, 2025. [Online]. Available: \url{https://www.helpnetsecurity.com/2025/03/28/healthcare-devices-vulnerabilities/}
+
+\bibitem{frontiers_ageism}
+``Editorial: AI-driven healthcare delivery, ageism, and implications for older adults,'' \textit{Frontiers in Public Health}, 2025. [Online]. Available: \url{https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1755410/full}
+
+\bibitem{pmc_ethics}
+``Ethical considerations of digital health technology in older adult care,'' \textit{PMC}, 2024. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11185426/}
+
+\bibitem{frontiers_meta}
+``Accuracy of wearable devices in predicting falls in older adults: a systematic review and meta-analysis,'' \textit{Frontiers in Public Health}, 2026. [Online]. Available: \url{https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2026.1778750/full}
+
+\bibitem{ieee_imu}
+``Validation of an IMU-Based Gait Analysis Method for Assessment of Fall Risk Against Traditional Methods,'' \textit{IEEE J. Biomed. Health Inform.}, 2025. [Online]. Available: \url{https://pubmed.ncbi.nlm.nih.gov/39074006/}
+
+\bibitem{frontiers_fusion}
+``Wearable sensors and machine learning fusion-based fall risk prediction in covert cerebral small vessel disease,'' \textit{Frontiers in Neuroscience}, 2025. [Online]. Available: \url{https://www.frontiersin.org/articles/10.3389/fnins.2025.1493988/full}
+
+\bibitem{arxiv_llm_fall}
+``Assessing LLMs and Diffusion Model for Wearable Fall Detection,'' \textit{arXiv}, 2025. [Online]. Available: \url{https://arxiv.org/html/2505.04660v1}
+
+\bibitem{sensors_edge}
+``An Innovative IoT and Edge Intelligence Framework for Monitoring Elderly People Using Anomaly Detection on Data from Non-Wearable Sensors,'' \textit{Sensors}, 2025. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11944996/}
+
+\bibitem{matter_wiki}
+``Matter (standard),'' \textit{Wikipedia}, 2025. [Online]. Available: \url{https://en.wikipedia.org/wiki/Matter_(standard)}
+
+\bibitem{pmc_fhir}
+``Streamlining wearable data integration for EHDS: a case study on advancing healthcare interoperability using Garmin devices and FHIR,'' \textit{PMC}, 2025. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12536430/}
+
+\bibitem{arxiv_multimodal}
+``Learning Longitudinal Health Representations from EHR and Wearable Data,'' \textit{arXiv}, 2025. [Online]. Available: \url{https://arxiv.org/html/2601.12227v1}
+
+\bibitem{mgb_cognitive}
+``Autonomous AI Agents Developed to Detect Early Signs of Cognitive Decline,'' \textit{Mass General Brigham}, 2025. [Online]. Available: \url{https://www.massgeneralbrigham.org/en/about/newsroom/press-releases/autonomous-ai-agents-detect-early-signs-of-cognitive-decline}
+
+\bibitem{plos_neuro}
+``Multi-modal machine learning approach for early detection of neurodegenerative diseases leveraging brain MRI and wearable sensor data,'' \textit{PLOS Digital Health}, 2025. [Online]. Available: \url{https://journals.plos.org/digitalhealth/article?id=10.1371/journal.pdig.0000795}
+
+\bibitem{pmc_ews}
+``AI-Powered early warning systems for clinical deterioration significantly improve patient outcomes: a meta-analysis,'' \textit{PMC}, 2025. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC12131336/}
+
+\bibitem{arxiv_anomaly}
+``Investigating an Intelligent System to Monitor \& Explain Abnormal Activity Patterns of Older Adults,'' \textit{arXiv}, 2025. [Online]. Available: \url{https://arxiv.org/html/2501.18108v1}
+
+\bibitem{bmc_smart_aging}
+``Smart aging: integrating AI into elderly healthcare,'' \textit{BMC Geriatrics}, 2025. [Online]. Available: \url{https://link.springer.com/article/10.1186/s12877-025-06723-w}
+
+\bibitem{hipaa_iot}
+``Navigating HIPAA Compliance for Healthcare IoT Devices and Wearables,'' \textit{HIPAA Partners}, 2025. [Online]. Available: \url{https://hipaapartners.com/blog/navigating-hipaa-compliance-for-healthcare-iot-devices-and-wearables}
+
+\bibitem{nist_cswp34}
+``CSWP 34, Mitigating Cybersecurity and Privacy Risks in Telehealth Smart Home Integration,'' \textit{NIST}, 2025. [Online]. Available: \url{https://csrc.nist.gov/pubs/cswp/34/mitigating-cybersecurity-and-privacy-risks-in-tele/final}
+
+\bibitem{censinet_gdpr}
+``How GDPR Impacts IoT Data in Healthcare,'' \textit{Censinet}, 2025. [Online]. Available: \url{https://www.censinet.com/perspectives/gdpr-impacts-iot-data-healthcare}
+
+\bibitem{frontiers_dignity}
+``Designing for dignity: ethics of AI surveillance in older adult care,'' \textit{Frontiers in Digital Health}, 2025. [Online]. Available: \url{https://www.frontiersin.org/journals/digital-health/articles/10.3389/fdgth.2025.1643238/full}
+
+\bibitem{pmc_barriers}
+``Barriers and facilitators to health technology adoption by older adults with chronic diseases: an integrative systematic review,'' \textit{PMC}, 2024. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC10873991/}
+
+\bibitem{pmc_dementia}
+``Barriers and Benefits to Technology Adoption by Dementia Caregivers,'' \textit{PMC}, 2024. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC11690895/}
+
+\bibitem{ncoa_apple}
+``Apple Watch as a Medical Alert System 2025,'' \textit{NCOA}, 2025. [Online]. Available: \url{https://www.ncoa.org/article/apple-watch-as-medical-alert-system-what-to-know/}
+
+\bibitem{apple_fall}
+``Use Fall Detection with Apple Watch,'' \textit{Apple Support}, 2025. [Online]. Available: \url{https://support.apple.com/en-kg/HT208944}
+
+\bibitem{seniorliving_mg}
+``Medical Guardian vs Lifeline Medical Alert Comparison for 2026,'' \textit{SeniorLiving.org}, 2026. [Online]. Available: \url{https://www.seniorliving.org/medical-alert-systems/medical-guardian-vs-philips-lifeline/}
+
+\bibitem{seniorlist_lifeline}
+``Lifeline Medical Alert System Review 2026,'' \textit{The Senior List}, 2026. [Online]. Available: \url{https://www.theseniorlist.com/medical-alert-systems/philips-lifeline/reviews/}
+
+\bibitem{analog_carepredict}
+``CarePredict: Harnessing the Power of Data to Enhance Quality of Life for Seniors,'' \textit{Analog Devices}, 2025. [Online]. Available: \url{https://www.analog.com/en/signals/articles/carepredict.html}
+
+\bibitem{fierce_alexa}
+``Amazon launches new elder care subscription service Alexa Together with emergency assistance, fall detection,'' \textit{Fierce Healthcare}, 2024. [Online]. Available: \url{https://www.fiercehealthcare.com/tech/amazon-launches-new-elder-care-subscription-service-alexa-together-emergency-assistance-fall}
+
+\end{thebibliography}
+
+\end{document}
+
